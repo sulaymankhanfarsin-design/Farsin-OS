@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agency OS | Enterprise Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { background-color: #0B0F19; color: #E2E8F0; font-family: 'Inter', sans-serif; }
+        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); }
+        .nav-item { transition: all 0.2s; cursor: pointer; }
+        .nav-item:hover { background: rgba(6, 182, 212, 0.1); color: #06B6D4; border-right: 3px solid #06B6D4; }
+        .nav-active { background: rgba(6, 182, 212, 0.15); color: #06B6D4; border-right: 4px solid #06B6D4; font-weight: 600; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0B0F19; }
+        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #06B6D4; }
+        .hidden { display: none !important; }
+        pre { white-space: pre-wrap; word-wrap: break-word; }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden selection:bg-cyan-500 selection:text-white">
+
+    <aside class="w-64 bg-[#0F172A] border-r border-gray-800 flex flex-col z-20 shadow-2xl">
+        <div class="p-6 border-b border-gray-800">
+            <h1 class="text-2xl font-bold text-white"><i class="fa-solid fa-bolt text-cyan-400 mr-2"></i>Agency<span class="text-cyan-400">OS</span></h1>
+            <p class="text-[10px] text-gray-500 uppercase tracking-widest mt-1 font-semibold">Admin Panel v2.0</p>
+        </div>
+        
+        <nav class="flex-1 overflow-y-auto py-4 text-sm text-gray-400">
+            <div class="px-6 mb-2 text-xs font-semibold uppercase tracking-wider text-gray-600">Core Engine</div>
+            <div id="nav-dashboard" class="nav-item nav-active py-3 px-6" onclick="switchTab('dashboard')"><i class="fa-solid fa-chart-line w-6"></i> ROI Dashboard</div>
+            
+            <div class="px-6 mt-6 mb-2 text-xs font-semibold uppercase tracking-wider text-emerald-500">Settings</div>
+            <div id="nav-memory" class="nav-item py-3 px-6 text-emerald-400" onclick="switchTab('memory')"><i class="fa-solid fa-brain w-6"></i> AI Memory Vault</div>
+
+            <!-- ALL 5 MODULES RESTORED -->
+            <div class="px-6 mt-6 mb-2 text-xs font-semibold uppercase tracking-wider text-gray-600">AI Workflows</div>
+            <div id="nav-email" class="nav-item py-3 px-6" onclick="switchTab('email')"><i class="fa-solid fa-envelope w-6"></i> Email Reply</div>
+            <div id="nav-lead" class="nav-item py-3 px-6" onclick="switchTab('lead')"><i class="fa-solid fa-filter w-6"></i> Lead Qualify</div>
+            <div id="nav-faq" class="nav-item py-3 px-6" onclick="switchTab('faq')"><i class="fa-solid fa-robot w-6"></i> FAQ Bot</div>
+            <div id="nav-summary" class="nav-item py-3 px-6" onclick="switchTab('summary')"><i class="fa-solid fa-file-contract w-6"></i> Report Summary</div>
+            <div id="nav-data" class="nav-item py-3 px-6" onclick="switchTab('data')"><i class="fa-solid fa-database w-6"></i> Data Entry</div>
+        </nav>
+        
+        <div class="p-5 border-t border-gray-800 bg-[#0B0F19]">
+            <div class="flex items-center text-xs font-medium text-emerald-400 bg-emerald-400/10 px-3 py-2 rounded border border-emerald-400/20">
+                <span class="relative flex h-2 w-2 mr-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span></span>
+                Vault Connected
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-full bg-[#0B0F19] relative overflow-hidden">
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-cyan-600 rounded-full mix-blend-screen filter blur-[150px] opacity-20 pointer-events-none"></div>
+
+        <header class="h-16 border-b border-gray-800 glass flex items-center justify-between px-8 z-10">
+            <h2 id="header-title" class="text-lg font-semibold text-white">Dashboard & Analytics</h2>
+            <div class="flex items-center gap-4 text-sm text-gray-400">
+                <span><i class="fa-solid fa-server mr-1"></i> localhost:8000</span>
+                <div class="h-6 w-px bg-gray-700"></div>
+                <span class="text-cyan-400 font-medium"><i class="fa-solid fa-user-tie mr-1"></i> Admin</span>
+            </div>
+        </header>
+
+        <div class="flex-1 overflow-y-auto p-8 z-10" id="main-content">
+            
+            <!-- DASHBOARD VIEW -->
+            <div id="view-dashboard" class="animate-fade-in">
+                <div class="grid grid-cols-4 gap-6 mb-8">
+                    <div class="glass p-6 rounded-xl border border-gray-700">
+                        <div class="text-gray-400 text-xs font-bold uppercase tracking-wider">Tasks Automated</div>
+                        <div class="text-3xl font-bold text-white mt-2" id="stat-tasks">0</div>
+                    </div>
+                    <div class="glass p-6 rounded-xl border border-gray-700">
+                        <div class="text-gray-400 text-xs font-bold uppercase tracking-wider">Hours Saved</div>
+                        <div class="text-3xl font-bold text-white mt-2" id="stat-hours">0 hrs</div>
+                    </div>
+                    <div class="glass p-6 rounded-xl border border-gray-700">
+                        <div class="text-gray-400 text-xs font-bold uppercase tracking-wider">Active Clients</div>
+                        <div class="text-3xl font-bold text-white mt-2">1</div>
+                    </div>
+                    <div class="glass p-6 rounded-xl border border-gray-700">
+                        <div class="text-gray-400 text-xs font-bold uppercase tracking-wider">Est. Value</div>
+                        <div class="text-3xl font-bold text-white mt-2" id="stat-revenue">€0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI MEMORY VIEW -->
+            <div id="view-memory" class="hidden animate-fade-in h-full">
+                <div class="glass rounded-xl border border-emerald-500/30 p-8 max-w-3xl">
+                    <h3 class="text-xl font-bold text-white mb-2"><i class="fa-solid fa-brain text-emerald-400 mr-2"></i>Global AI Memory & Rules</h3>
+                    <p class="text-sm text-gray-400 mb-8">Train your AI once. It will remember these rules across all 5 workflows.</p>
+                    
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Brand Voice & Tone</label>
+                    <textarea id="mem-voice" rows="3" class="w-full bg-black/40 border border-gray-700 rounded-lg p-4 text-white focus:border-emerald-500 mb-6 resize-none" placeholder="E.g., Formal, highly professional, direct."></textarea>
+                    
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Negative Prompts (What NOT to do)</label>
+                    <textarea id="mem-rules" rows="3" class="w-full bg-black/40 border border-gray-700 rounded-lg p-4 text-white focus:border-emerald-500 mb-6 resize-none" placeholder="E.g., Never offer discounts. Do not use emojis."></textarea>
+                    
+                    <button onclick="saveMemory()" class="bg-emerald-500 hover:bg-emerald-400 text-black font-bold py-3 px-8 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                        Save to Brain <i class="fa-solid fa-check ml-2"></i>
+                    </button>
+                    <span id="mem-status" class="ml-4 text-sm text-emerald-400 hidden">Saved successfully!</span>
+                </div>
+            </div>
+
+            <!-- MODULE VIEW -->
+            <div id="view-module" class="hidden h-full flex flex-col">
+                <div class="flex gap-6 h-full">
+                    <div class="w-1/2 flex flex-col gap-4">
+                        <div class="glass rounded-xl border border-gray-700 flex-1 p-6 overflow-y-auto" id="dynamic-form"></div>
+                        <button id="run-btn" onclick="executeAI()" class="w-full bg-cyan-500 text-black font-bold py-4 rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.3)]">RUN AUTOMATION</button>
+                    </div>
+                    <div class="w-1/2 glass rounded-xl border border-gray-700 p-6 flex flex-col relative">
+                        <div id="loader" class="hidden absolute inset-0 bg-black/80 flex flex-col items-center justify-center z-10"><i class="fa-solid fa-circle-notch fa-spin text-4xl text-cyan-400"></i></div>
+                        <pre id="output-box" class="text-sm font-mono text-gray-500 overflow-y-auto">Ready.</pre>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        // ALL 5 MODULES CONFIGURATION RESTORED
+        const appData = {
+            'email': { title: 'Email Reply Generator', endpoint: '/api/email-reply', fields: [{id:'incoming_email', label:'Incoming Email Text', type:'textarea'}, {id:'intent', label:'Your Response Intent', type:'input'}] },
+            'lead': { title: 'Lead Qualification Engine', endpoint: '/api/lead-qualify', fields: [{id:'inquiry', label:'Client Inquiry / Message', type:'textarea'}] },
+            'faq': { title: 'Contextual FAQ Bot', endpoint: '/api/faq-bot', fields: [{id:'company_context', label:'Company Rules/Policies', type:'textarea'}, {id:'user_question', label:'Question from User', type:'input'}] },
+            'summary': { title: 'Report Summarizer', endpoint: '/api/report-summary', fields: [{id:'long_text', label:'Long Document or Report', type:'textarea'}] },
+            'data': { title: 'Data Entry Extractor', endpoint: '/api/data-entry', fields: [{id:'raw_text', label:'Raw Invoice / Form Data', type:'textarea'}] }
+        };
+
+        let currentActive = 'dashboard';
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('nav-active'));
+            document.getElementById(`nav-${tabId}`).classList.add('nav-active');
+
+            document.getElementById('view-dashboard').classList.add('hidden');
+            document.getElementById('view-memory').classList.add('hidden');
+            document.getElementById('view-module').classList.add('hidden');
+
+            if(tabId === 'dashboard') {
+                document.getElementById('view-dashboard').classList.remove('hidden');
+                document.getElementById('header-title').innerText = "Dashboard & Analytics";
+            } else if(tabId === 'memory') {
+                document.getElementById('view-memory').classList.remove('hidden');
+                document.getElementById('header-title').innerText = "AI Memory Settings";
+                loadMemory(); 
+            } else {
+                document.getElementById('view-module').classList.remove('hidden');
+                currentActive = tabId;
+                const config = appData[tabId];
+                document.getElementById('header-title').innerText = config.title;
+                
+                let formHTML = '';
+                config.fields.forEach(f => {
+                    formHTML += `<label class="block text-[11px] font-bold text-gray-400 uppercase mb-2">${f.label}</label>`;
+                    formHTML += f.type === 'textarea' ? `<textarea id="${f.id}" rows="6" class="w-full bg-black/40 border border-gray-700 rounded-lg p-4 text-white mb-5 resize-none"></textarea>` : `<input type="text" id="${f.id}" class="w-full bg-black/40 border border-gray-700 rounded-lg p-4 text-white mb-5">`;
+                });
+                document.getElementById('dynamic-form').innerHTML = formHTML;
+            }
+        }
+
+        async function loadMemory() {
+            const res = await fetch('http://127.0.0.1:8000/api/memory');
+            const data = await res.json();
+            document.getElementById('mem-voice').value = data.brand_voice;
+            document.getElementById('mem-rules').value = data.negative_rules;
+        }
+
+        async function saveMemory() {
+            const voice = document.getElementById('mem-voice').value;
+            const rules = document.getElementById('mem-rules').value;
+            
+            await fetch('http://127.0.0.1:8000/api/memory', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ brand_voice: voice, negative_rules: rules })
+            });
+
+            const status = document.getElementById('mem-status');
+            status.classList.remove('hidden');
+            setTimeout(() => status.classList.add('hidden'), 3000);
+        }
+
+        async function loadDashboardStats() {
+            const res = await fetch('http://127.0.0.1:8000/api/stats');
+            const data = await res.json();
+            document.getElementById('stat-tasks').innerText = data.tasks;
+            document.getElementById('stat-hours').innerText = data.hours + " hrs";
+            document.getElementById('stat-revenue').innerText = "€" + data.revenue;
+        }
+
+        window.onload = loadDashboardStats;
+
+        async function executeAI() {
+            const config = appData[currentActive];
+            const outputBox = document.getElementById('output-box');
+            document.getElementById('loader').classList.remove('hidden');
+            
+            let payload = {};
+            config.fields.forEach(f => payload[f.id] = document.getElementById(f.id).value);
+
+            try {
+                const response = await fetch(`http://127.0.0.1:8000${config.endpoint}`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
+                });
+                outputBox.innerText = JSON.stringify(await response.json(), null, 4);
+                outputBox.className = "text-sm font-mono text-emerald-400 overflow-y-auto";
+                loadDashboardStats();
+            } catch (err) {
+                outputBox.innerText = `Error: ${err.message}`;
+                outputBox.className = "text-sm font-mono text-red-400 overflow-y-auto";
+            } finally {
+                document.getElementById('loader').classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
